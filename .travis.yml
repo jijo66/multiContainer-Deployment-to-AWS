@@ -1,22 +1,22 @@
 sudo: required
 services:
     - docker
-before install:
+before_install:
     - docker build -t ggkinuthia/react-test -f ./client/Dockerfile.dev ./client
 
 script:
     - docker run -e CI=true ggkinuthia/react-test npm test
 
-after success:
+after_success:
     - docker build -t ggkinuthia/multi-client ./client
     - docker build -t ggkinuthia/multi-nginx ./nginx
     - docker build -t ggkinuthia/multi-server ./server
     - docker build -t ggkinuthia/multi-worker ./worker
 #Log in to the docker CLI
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 #Take the images and push them to docker hub
 
-- docker push ggkinuthia/multi-client 
-- docker push ggkinuthia/multi-nginx
-- docker push ggkinuthia/multi-server
-- docker push ggkinuthia/multi-worker
+    - docker push ggkinuthia/multi-client 
+    - docker push ggkinuthia/multi-nginx
+    - docker push ggkinuthia/multi-server
+    - docker push ggkinuthia/multi-worker

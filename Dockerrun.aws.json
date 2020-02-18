@@ -1,0 +1,41 @@
+{
+
+    "AWSEBDockerrunVersion":2,
+    "containerDefinitions":[
+        {
+            "name":"client",
+            "image":"ggkinuthia/multi-client",
+            "hostname":"client",
+            "essential": false 
+        },
+
+        {
+            "name":"server",
+            "image":"ggkinuthia/multi-server",
+            "hostname":"api",
+            "essential":false
+        },
+        {
+            "name":"worker",
+            "image":"ggkinuthia/multi-worker",
+            "hostname":"worker",
+            "essential":false
+        },
+        {
+            "name":"nginx",
+            "image":"ggkinuthia/multi-nginx",
+            "hostname":"nginx",
+            "essential":true,
+            "portMappings":[
+                {
+                    "hostport":80,
+                    "containerPort":80
+                }
+            ],
+            "Links":["client","server"]
+            
+        }
+
+    ]
+
+}
